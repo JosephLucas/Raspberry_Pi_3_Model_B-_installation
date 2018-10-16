@@ -62,3 +62,15 @@ sudo systemctl enable ssh
 * ARMv7 (https://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2) didn't not work out-of-the-box for the B+ model neither.
 See https://archlinuxarm.org/forum/viewtopic.php?f=67&t=12805 and https://archlinuxarm.org/forum/viewtopic.php?f=65&t=12661 for more info.
 It seems that the kernel.img isn't loaded durting boot (4, or maybe 3, green ligh flashes during boot) and no signal is detected by the HDMI screen at all.
+
+## Install Nextcloud
+
+Install snap
+```
+sudo apt install snapd
+sudo snap install nextcloud
+```
+Doc of the snap package: https://github.com/nextcloud/nextcloud-snap
+
+In a browser get to "localhost"
+
