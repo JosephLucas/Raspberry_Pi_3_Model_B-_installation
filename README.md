@@ -72,5 +72,28 @@ sudo snap install nextcloud
 ```
 Doc of the snap package: https://github.com/nextcloud/nextcloud-snap
 
-In a browser get to "localhost"
+In a browser get to "localhost", enter admin, username and password.
 
+(interesting link for nextcloud configuration: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nextcloud-on-ubuntu-16-04)
+
+Get the manual of nextcloud snap package
+```
+sudo snap info nextcloud
+```
+Enable https
+```
+sudo snap run nextcloud.enable-https lets-encrypt
+```
+Add <name>.freeboxos.fr to trusted_domains
+```
+sudo snap run nextcloud.occ config:system:set trusted_domains 1 --value=<name>.freeboxos.fr
+```
+
+## Set firewall
+Use Uncomplicated FireWall
+```
+sudo apt install ufw
+sudo ufw enable
+sudo ufw allow 22,80,443/tcp
+sudo ufw status verbose
+```
