@@ -1,4 +1,4 @@
-## install NOOBS on SD card
+## install RaspBian via a SD card with NOOBS
 Follow instructions from http://qdosmsq.dunbar-it.co.uk/blog/2013/06/noobs-for-raspberry-pi/
 
 Grosso modo this corresponds to:
@@ -17,7 +17,7 @@ unzip ~/Downloads/NOOBS_v2_0_9.zip
 5) unmount the SD card
 6) Put it into the raspberry, boot and follow NOOBS instructions
 
-## Set wifi
+## Set a wep wifi connection
 WEP protected wifi was not configurable with the network GUI. It led to an error like "cannot connect, pre shared key might be too long" after entering the wep key.
 A solution has been to edit the file `/etc/wpa_supplicant/wpa_supplicant.conf` by hand to get
 ```
@@ -63,14 +63,21 @@ sudo systemctl enable ssh
 See https://archlinuxarm.org/forum/viewtopic.php?f=67&t=12805 and https://archlinuxarm.org/forum/viewtopic.php?f=65&t=12661 for more info.
 It seems that the kernel.img isn't loaded durting boot (4, or maybe 3, green ligh flashes during boot) and no signal is detected by the HDMI screen at all.
 
+## Set firewall
+Use Uncomplicated FireWall
+```
+sudo apt install ufw
+sudo ufw enable
+sudo ufw allow 22,80,443/tcp
+sudo ufw status verbose
+```
 ## Install Nextcloud
-
 Install snap
 ```
 sudo apt install snapd
 sudo snap install nextcloud
 ```
-Doc of the snap package: https://github.com/nextcloud/nextcloud-snap
+Documentation of the snap package: https://github.com/nextcloud/nextcloud-snap
 
 In a browser get to "localhost", enter admin, username and password.
 
@@ -88,12 +95,21 @@ Add <name>.freeboxos.fr to trusted_domains
 ```
 sudo snap run nextcloud.occ config:system:set trusted_domains 1 --value=<name>.freeboxos.fr
 ```
+On another client machine, get to the IP of the raspberry with a browser: by default nextcloud uses port 80.
+Installing the client application:
+```
+pacman -S owncloud-client
+```
 
-## Set firewall
-Use Uncomplicated FireWall
+## Use KeePassXC to share passwords and logins
+KeePassXC is an opensource application that reads and write .kdbx files. Those files are encrypted databases storing logins, passwords and encrypted informations. It is very convenient to share these encrypted databases through a cloud server. (Having a server with HTTPS connection, activated through SSL certificates, is a plus for safety.)
 ```
-sudo apt install ufw
-sudo ufw enable
-sudo ufw allow 22,80,443/tcp
-sudo ufw status verbose
+pacman -S keepassxc
 ```
+Then fill and save the database in the owncloud fodler syncronised with the cloud.
+
+On an android smartphone install
+```
+Keepass2Android
+```
+In android some applications may read into the clipboard. Thus it's useful to also install the "Keepass2Android keyboard" to copy/paste decrypted passwords without using the android clipboard.
