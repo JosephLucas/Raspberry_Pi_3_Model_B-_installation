@@ -50,10 +50,15 @@ firefox-esr vim git
 ```
 By default chromium is the unique browser (it has been customized for raspberry low RAM). In the packages available only firefox-esr flavour is available.
 
+
+## Install ssh server
+```
+sudo apt install openssh
+```
 Enable ssh server
 ```
-sudo systemctl start ssh
-sudo systemctl enable ssh
+sudo systemctl start sshd
+sudo systemctl enable sshd
 ```
 
 ## attempt to install Arch linux ARM
