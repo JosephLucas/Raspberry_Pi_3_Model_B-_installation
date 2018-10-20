@@ -77,6 +77,8 @@ sudo ufw allow 22,80,443/tcp
 sudo ufw status verbose
 ```
 ## Install Nextcloud
+(i did not used https://ownyourbits.com/2017/02/13/nextcloud-ready-raspberry-pi-image/ but it might be very interesting)
+
 Install snap
 ```
 sudo apt install snapd
