@@ -46,7 +46,7 @@ sudo apt upgrade
 ```
 Then install packages
 ```
-firefox-esr vim git
+firefox-esr vim git screen
 ```
 By default chromium is the unique browser (it has been customized for raspberry low RAM). In the packages available only firefox-esr flavour is available.
 
@@ -59,6 +59,84 @@ Enable ssh server
 ```
 sudo systemctl start sshd
 sudo systemctl enable sshd
+```
+Disable password authentication
+```
+sudo vim /etc/ssh/ssh_config
+```
+uncomment and edit
+```
+# PasswordAuthentication yes
+```
+to get
+```
+PasswordAuthentication no
+```
+
+## secure ssh with fail2ban
+```
+sudo apt install fail2ban
+sudo cp /etc/fail2ban/jail.conf
+sudo cp /etc/fail2ban/jail.local
+```
+edit /etc/fail2ban/jail.local
+```
+maxretry = 6
+# 2 heures = 120 minutes
+bantime = 7200
+
+[sshd]
+enabled = true
+```
+Start/enable fail2ban
+```
+sudo systemctl start fail2ban
+sudo systemctl enable fail2ban
+```
+To view jails statuses
+```
+fail2ban-client status
+fail2ban-client status sshd
+```
+To ban an ip
+```
+sudo fail2ban-client -vvv set sshd banip 116.31.116.43
+```
+Ban an ip with ufw, and then verify
+```
+sudo ufw deny from 116.31.116.43 to any
+sudo ufw status
+```
+## Check If server has been hacked
+Look at all last users that logged in
+```
+last
+```
+Look at
+```
+vim /var/log.auth.log
+cat /var/log/auth.log |grep Accepted
+cat /var/log/auth.log |grep Failed
+cat /var/log/auth.log |grep Failed | sed -E 's/.*from (.*) port.*/\1/' | sort | uniq -c
+```
+
+## antivirus
+```
+sudo apt install clamav clamtk
+```
+Check that the antivirus database updater daemon is running
+```
+ps -afux |grep freshclam -d
+```
+it updates antivirus rules.
+
+Start the clamav GUI
+```
+clamtk
+```
+Start clamav antivirus by hand
+```
+sudo clamscan -r -i -l /var/log/clamav/scan.$(date +%F).log --exclude-dir="^/sys" / | sudo tee /var/log/clamav/scan.$(date +%F).res
 ```
 
 ## attempt to install Arch linux ARM
