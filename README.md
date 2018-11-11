@@ -107,7 +107,7 @@ Ban an ip with ufw, and then verify
 sudo ufw deny from 116.31.116.43 to any
 sudo ufw status
 ```
-## Check If server has been hacked
+## Check if the server has been hacked
 Look at all last users that logged in
 ```
 last
@@ -171,6 +171,11 @@ In a browser get to "localhost", enter admin, username and password.
 Get the manual of nextcloud snap package
 ```
 sudo snap info nextcloud
+```
+Start/enable nextcloud
+```
+sudo snap start nextcloud
+sudo snap enable nextcloud
 ```
 Enable https
 ```
